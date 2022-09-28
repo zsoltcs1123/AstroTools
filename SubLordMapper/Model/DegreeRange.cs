@@ -1,5 +1,5 @@
 ﻿namespace SubLordMapper.Model
 {
-    internal record DegreeRange(double Start, double End);
+    public record DegreeRange(double Start, double End);
 
 }

@@ -1,4 +1,4 @@
 ﻿namespace SubLordMapper.Model
 {
-    internal record EphemerisForPlanet(DateTime Date, double Longitude, SubLord SubLord);
+    internal record EphemerisForPlanet(DateTime Date, double Longitude, SubLord? SubLord);
 }

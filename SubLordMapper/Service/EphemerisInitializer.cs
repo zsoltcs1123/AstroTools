@@ -1,22 +1,17 @@
 ﻿using CsvHelper;
-using SubLordMapper.Model;
 using System.Globalization;
 
 namespace SubLordMapper.Service
 {
-    internal class EphemerisInitializer : CsvDatainitializer<Ephemerides, string> 
+    internal class EphemerisInitializer<T> : CsvDatainitializer<IEnumerable<T>, string>
     {
-        public override Ephemerides Initialize(string fileName)
+        public override List<T> Initialize(string fileName)
         {
             using var streamReader = File.OpenText(GetFullPath(fileName));
-            using (var csv = new CsvReader(streamReader, CultureInfo.InvariantCulture))
-            {
-                //csv.Context.RegisterClassMap<EphemerisEntryMap>();
-                var records = csv.GetRecords<Ephemeris>();
+            using var csv = new CsvReader(streamReader, CultureInfo.InvariantCulture);
+            var records = csv.GetRecords<T>();
 
-                return new Ephemerides(records);
-            }
+            return records.ToList();
         }
-
     }
 }

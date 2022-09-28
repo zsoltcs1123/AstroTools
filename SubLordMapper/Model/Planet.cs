@@ -1,8 +1,9 @@
 ﻿namespace SubLordMapper.Model
 {
-    internal enum Planet
+    public enum Planet
     {
         Sun,
+        Moon,
         Mercury,
         Venus,
         Mars,

@@ -3,8 +3,9 @@
     internal class Ephemerides
     {
         private readonly List<Ephemeris> _entries = new();
-        private readonly List<SubLord> _subLords = new();
-        private readonly List<EphemerisWithSubLord> _subLordMapping = new();
+        private readonly List<SubLord> _subLordTable = new();
+
+        private Dictionary<DateTime, Dictionary<Planet, (double Longitude, SubLord? SubLord)>> _subLordMapping = new();
 
         public Ephemerides(IEnumerable<Ephemeris> entries)
         {
@@ -13,59 +14,9 @@
 
         public IEnumerable<EphemerisForPlanet> GetSubLordMapping(DateTime start, Planet planet, DateTime? end = null)
         {
-            return _subLordMapping.Where(s => s.Entry.Date >= start && end.HasValue ? s.Entry.Date <= end : true)
-                .Select(s => new EphemerisForPlanet(s.Entry.Date, GetLongitude(planet, s.Entry), GetSubLord(planet, s)));
-        }
-
-        private IEnumerable<EphemerisWithSubLord> GetSubLordMapping()
-        {
-            return _entries.Select(e => new EphemerisWithSubLord(e,
-                MapSubLord(e.Sun),
-                MapSubLord(e.Mercury),
-                MapSubLord(e.Venus),
-                MapSubLord(e.Mars),
-                MapSubLord(e.Jupiter),
-                MapSubLord(e.Saturn),
-                MapSubLord(e.MeanNode),
-                MapSubLord(e.SouthNode)));
-        }
-
-        private SubLord MapSubLord(double longitude)
-        {
-            return _subLords.FirstOrDefault(s => longitude > s.Degrees.Start && longitude < s.Degrees.End)
-                ?? new SubLord(0,"","","","","", new DegreeRange(0,0));
-        }
-
-        private SubLord GetSubLord(Planet planet, EphemerisWithSubLord ephemeris)
-        {
-            return planet switch
-            {
-                Planet.Sun => ephemeris.Sun,
-                Planet.Mercury => ephemeris.Mercury,
-                Planet.Venus => ephemeris.Venus,
-                Planet.Mars => ephemeris.Mars,
-                Planet.Jupiter => ephemeris.Jupiter,
-                Planet.Saturn => ephemeris.Saturn,
-                Planet.Rahu => ephemeris.Rahu,
-                Planet.Ketu => ephemeris.Ketu,
-                _ => throw new NotImplementedException()
-            };
-        }
-
-        private double GetLongitude(Planet planet, Ephemeris ephemeris)
-        {
-            return planet switch
-            {
-                Planet.Sun => ephemeris.Sun,
-                Planet.Mercury => ephemeris.Mercury,
-                Planet.Venus => ephemeris.Venus,
-                Planet.Mars => ephemeris.Mars,
-                Planet.Jupiter => ephemeris.Jupiter,
-                Planet.Saturn => ephemeris.Saturn,
-                Planet.Rahu => ephemeris.MeanNode,
-                Planet.Ketu => ephemeris.SouthNode,
-                _ => throw new NotImplementedException()
-            };
+            return _subLordMapping
+                .Where(kvp => kvp.Key >= start && end.HasValue ? kvp.Key <= end : true)
+                .Select(kvp => new EphemerisForPlanet(kvp.Key, kvp.Value[planet].Longitude, kvp.Value[planet].SubLord));
         }
 
         public void Add(Ephemeris ephemerida)
@@ -80,11 +31,10 @@
 
         public void AddSubLordTable(IEnumerable<SubLord> subLords)
         {
-            _subLords.Clear();
-            _subLordMapping.Clear();
+            _subLordTable.Clear();
+            _subLordTable.AddRange(subLords);
 
-            _subLords.AddRange(subLords);
-            _subLordMapping.AddRange(GetSubLordMapping());
+            _subLordMapping = _entries.ToDictionary(e => e.Date, e => e.GenerateSubLords(_subLordTable));
         }
     }
 }
