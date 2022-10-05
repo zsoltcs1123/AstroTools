@@ -1,4 +1,5 @@
 ﻿using SubLordMapper.Model.DataTransfer;
+using SubLordMapper.Model.Enums;
 
 namespace SubLordMapper.Model;
 

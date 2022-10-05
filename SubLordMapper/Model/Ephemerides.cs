@@ -1,4 +1,6 @@
-﻿namespace SubLordMapper.Model
+﻿using SubLordMapper.Model.Enums;
+
+namespace SubLordMapper.Model
 {
     internal class Ephemerides
     {

@@ -1,4 +1,5 @@
 ﻿using SubLordMapper.Model;
+using SubLordMapper.Model.ZodiacPosition;
 
 namespace SubLordMapper.Service
 {

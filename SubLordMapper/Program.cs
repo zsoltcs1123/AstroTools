@@ -1,6 +1,7 @@
 ﻿using SubLordMapper.Service;
 using SubLordMapper.Model;
 using SubLordMapper.Model.DataTransfer;
+using SubLordMapper.Model.Enums;
 
 Console.WriteLine("Hello, World!");
 

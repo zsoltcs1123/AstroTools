@@ -1,15 +1,15 @@
-﻿namespace SubLordMapper.Model
+﻿namespace SubLordMapper.Model.Enums
 {
     public enum Planet
     {
+        Ketu,
+        Venus,
         Sun,
         Moon,
-        Mercury,
-        Venus,
         Mars,
+        Rahu,
         Jupiter,
         Saturn,
-        Rahu,
-        Ketu
+        Mercury,
     }
 }

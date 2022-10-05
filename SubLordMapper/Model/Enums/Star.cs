@@ -1,0 +1,32 @@
+﻿namespace SubLordMapper.Model.Enums;
+
+public enum Star
+{
+    Aswini,
+    Bharani,
+    Krittika,
+    Rohini,
+    Mrigashira,
+    Adra,
+    Punarvasu,
+    Pushya,
+    Aslesha,
+    Magha,
+    PurvaPhalguni,
+    UttaraPhalguni,
+    Hasta,
+    Chitra,
+    Swati,
+    Vishaka,
+    Anuradha,
+    Jyestha,
+    Mula,
+    PurvaAshadha,
+    UttaraAshadha,
+    Sravana,
+    Dhanishta,
+    Shatabhisha,
+    PurvaBhadrapada,
+    UttaraBhadrapada,
+    Revati,
+}

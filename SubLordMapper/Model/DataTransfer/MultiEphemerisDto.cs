@@ -1,5 +1,5 @@
 ﻿namespace SubLordMapper.Model.DataTransfer
 {
-    public record MultiEphemerisDto(DateTime Date, double Sun, double Mercury, double Venus, double Mars, double Jupiter, double Saturn, double MeanNode, double SouthNode);
+    public record MultiEphemerisDto(DateTime Date, decimal Sun, decimal Mercury, decimal Venus, decimal Mars, decimal Jupiter, decimal Saturn, decimal MeanNode, decimal SouthNode);
 
 }
