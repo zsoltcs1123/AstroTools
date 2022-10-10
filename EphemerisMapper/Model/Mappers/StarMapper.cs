@@ -6,20 +6,25 @@ namespace EphemerisMapper.Model.Mappers;
 
 public static class StarMapper
 {
-    public static readonly Degree StarRegion = new(0, 13, 20, 0);
+    public static readonly Degree StarRegion = new(13, 20, 0);
 
     private static readonly Dictionary<DegreeRange, Star> CuspToStar = GenerateCuspToStar();
 
     private static readonly Dictionary<Star, Planet> StarLords = GenerateStarLords();
+
     private static Dictionary<DegreeRange, Star> GenerateCuspToStar()
     {
         decimal acc = 0;
-        return Enum.GetValues<Star>().ToDictionary(p => new DegreeRange(new Degree(acc), new Degree(acc += StarRegion.Dec)), p => p);
+        return Enum.GetValues<Star>()
+            .ToDictionary(
+                p => new DegreeRange(new Degree(acc).RoundToNearestWhole(),
+                    new Degree(acc += StarRegion.Dec).RoundToNearestWhole()), p => p);
     }
-    private static Dictionary<Star,Planet> GenerateStarLords()
+
+    private static Dictionary<Star, Planet> GenerateStarLords()
     {
         var ret = new Dictionary<Star, Planet>();
-        var planetToStar = Enum.GetValues<Planet>().ToDictionary(p=> p, p => p.ToStar());
+        var planetToStar = Enum.GetValues<Planet>().ToDictionary(p => p, p => p.ToStar());
 
         foreach (var pts in planetToStar)
         {
@@ -31,7 +36,7 @@ public static class StarMapper
 
         return ret;
     }
-    
+
     public static Planet ToLord(this Star star) => StarLords[star];
 
     public static Star ToStar(this Degree degree)
@@ -48,5 +53,4 @@ public static class StarMapper
     {
         return new Nakshatra(degree.ToStar());
     }
-
 }

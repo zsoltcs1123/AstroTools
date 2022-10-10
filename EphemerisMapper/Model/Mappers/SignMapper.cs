@@ -5,7 +5,7 @@ namespace EphemerisMapper.Model.Mappers;
 
 public static class SignMapper
 {
-    private static readonly Degree StarRegion = new Degree(0, 13, 20, 0);
+    private static readonly Degree StarRegion = new Degree(13, 20, 0);
 
     private static readonly Dictionary<DegreeRange, Sign> CuspToSign = GenerateCuspToSign();
 

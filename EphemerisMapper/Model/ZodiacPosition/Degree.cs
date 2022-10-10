@@ -11,24 +11,24 @@ public record Degree
         Dec = ConvertFromZodiacalToDecimal(zodiacal);
     }
 
-    public Degree(uint degrees, uint hours, uint minutes, uint seconds)
+    public Degree(uint degrees, uint minutes, uint seconds)
     {
-        if (degrees > 360 || hours > 60 || minutes > 60 || seconds > 60)
+        if (degrees > 360 || minutes > 60 || seconds > 60)
         {
-            throw new Exception($"Invalid degree values in : {degrees}, {hours}, {minutes}, {seconds}");
+            throw new Exception($"Invalid degree values in : {degrees}, {minutes}, {seconds}");
         }
-        
-        Zodiacal = new ZodiacalFormat(degrees, hours, minutes, seconds);
+
+        Zodiacal = new ZodiacalFormat(degrees, minutes, seconds);
         Dec = ConvertFromZodiacalToDecimal(Zodiacal);
     }
 
     public Degree(decimal dec)
     {
-        if (dec is > 360 or < 0 )
+        if (dec is > 360 or < 0)
         {
             throw new Exception($"Invalid degree value: {dec}");
         }
-        
+
         Dec = dec;
         Zodiacal = ConvertFromDecimalToZodiacal(dec);
     }
@@ -65,10 +65,9 @@ public record Degree
 
     private static decimal ConvertFromZodiacalToDecimal(ZodiacalFormat zodiacal)
     {
-        decimal sec = zodiacal.Seconds == 0 ? 0 : 60 / zodiacal.Seconds;
-        decimal min = sec == 0 ? zodiacal.Minutes : zodiacal.Minutes + (1 / sec);
-        decimal hour = min == 0 ? zodiacal.Hours : zodiacal.Hours + (1 / (60/ min));
-        var degree = hour == 0 ? zodiacal.Degrees : zodiacal.Degrees + 1 / (60 / hour);
+        decimal sec = zodiacal.Seconds == 0 ? 0 : 60m / zodiacal.Seconds;
+        decimal min = sec == 0 ? zodiacal.Minutes : zodiacal.Minutes + 1m / sec;
+        var degree = min == 0 ? zodiacal.Degrees : zodiacal.Degrees + 1m / (60m / min);
         return degree;
     }
 
@@ -76,21 +75,22 @@ public record Degree
     {
         var decimalPart = GetDecimalPart(dec);
 
-        var hour = 60 / (1 / decimalPart);
-        var hourDecimalPart = GetDecimalPart(hour);
-
-        var minute = 60 / (1 / hourDecimalPart);
+        var minute = decimalPart * 60;
         var minuteDecimalPart = GetDecimalPart(minute);
 
-        var second = 60 / (1 / minuteDecimalPart);
+        var second = minuteDecimalPart * 60;
 
         return new ZodiacalFormat(
             GetIntegralPart(dec),
-            GetIntegralPart(hour),
             GetIntegralPart(minute),
             GetIntegralPart(second));
     }
 
     private static decimal GetDecimalPart(decimal dec) => dec - Math.Truncate(dec);
     private static uint GetIntegralPart(decimal dec) => (uint)Math.Truncate(dec);
+
+    public override string ToString()
+    {
+        return $"{nameof(Zodiacal)}: [{Zodiacal}], {nameof(Dec)}: [{Dec.ToString("0.0000")}]";
+    }
 }

@@ -11,6 +11,7 @@ var moonEphemFile = "Resources\\moon_ephem_sidereal_krishnamurti_2022Mar1_2022De
 var ephemerisBuilder = new EphemerisBuilder();
 var ephemerisInitializer = new EphemerisInitializer<MultiEphemerisDto>();
 
-var ephemerides = ephemerisInitializer.Initialize(ephemFile).SelectMany(e => ephemerisBuilder.Build(e));
+var ephemerides = ephemerisInitializer.Initialize(ephemFile).SelectMany(e => ephemerisBuilder.Build(e)).ToList();
 
 
+Console.ReadLine();

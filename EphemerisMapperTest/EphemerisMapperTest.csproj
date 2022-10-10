@@ -20,4 +20,16 @@
       <ProjectReference Include="..\EphemerisMapper\EphemerisMapper.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="TestData" />
+      <Folder Include="Utilities" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="TestData\moon_test.csv" />
+      <Content Include="TestData\moon_test.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

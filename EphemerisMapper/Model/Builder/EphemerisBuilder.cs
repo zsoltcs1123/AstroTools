@@ -17,7 +17,7 @@ public class EphemerisBuilder
             .Select(p =>
             {
                 var degrees = GetDegreesForPlanet(p, dto);
-                return new Ephemeris(p, degrees, 0, dto.Date, Nakshatras.First(n => n.DegreeRange.Contains(degrees)));
+                return new Ephemeris(p, degrees, 0, dto.Date, Nakshatras.First(n => n.StarRegion.Contains(degrees)));
             });
     }
 

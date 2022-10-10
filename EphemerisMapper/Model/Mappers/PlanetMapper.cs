@@ -1,4 +1,5 @@
-﻿using EphemerisMapper.Model.Enums;
+﻿using System.Runtime.CompilerServices;
+using EphemerisMapper.Model.Enums;
 using EphemerisMapper.Model.ZodiacPosition;
 
 namespace EphemerisMapper.Model.Mappers;
@@ -40,11 +41,19 @@ public static class PlanetMapper
 
     public static DegreeRange ToDegreeRange(this Planet planet, decimal offset = 0)
     {
+        var st = (PlanetsToVimshottariPeriod[planet] / VimshottariTotal) * StarMapper.StarRegion.Dec;
+        var start = (PlanetsToVimshottariPeriod
+            .Where(ptv => (int)ptv.Key < (int)planet)
+            .Select(ptv => ptv.Value)
+            .Sum() / VimshottariTotal) * StarMapper.StarRegion.Dec +offset;
+
+        var end = start + (PlanetsToVimshottariPeriod[planet]/VimshottariTotal) * StarMapper.StarRegion.Dec;
+        
         return new DegreeRange(
-            new Degree((PlanetsToVimshottariPeriod
-                .Where(ptv => (int)ptv.Key < (int)planet)
-                .Select(ptv => ptv.Value)
-                .Sum() / VimshottariTotal) + offset),
-            new Degree(PlanetsToVimshottariPeriod[planet] + offset));
+            new Degree(start).RoundToNearestWhole(),
+            new Degree(end).RoundToNearestWhole());
     }
+
+    public static decimal ToVimShottari(this Planet planet) =>
+        PlanetsToVimshottariPeriod[planet] / VimshottariTotal;
 }

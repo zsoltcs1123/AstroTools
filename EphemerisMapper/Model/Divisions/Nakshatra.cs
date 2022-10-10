@@ -7,14 +7,14 @@ namespace EphemerisMapper.Model.Divisions;
 public record Nakshatra
 {
     public Star Star { get; }
-    public DegreeRange DegreeRange { get; }
+    public DegreeRange StarRegion { get; }
     public Planet StarLord { get; }
     public SubDivision<Planet> SubLords { get; }
 
     public Nakshatra(Star star)
     {
         Star = star;
-        DegreeRange = star.ToDegreeRange();
+        StarRegion = star.ToDegreeRange();
         StarLord = star.ToLord();
         SubLords = GenerateSubLords();
     }
@@ -22,9 +22,17 @@ public record Nakshatra
     private SubDivision<Planet> GenerateSubLords()
     {
         var planets = ReorderPlanets(Enum.GetValues<Planet>());
+
+        var acc = StarRegion.Start;
         
         return new SubDivision<Planet>("SubLord", 1, planets
-            .ToDictionary(p => p.ToDegreeRange(DegreeRange.Start.Dec), p => p));
+            .ToDictionary(p =>
+            {
+                var vm = new Degree(p.ToVimShottari() * StarMapper.StarRegion.Dec) ;
+                var rng = new DegreeRange(acc.RoundToNearestWhole(), (acc + vm).RoundToNearestWhole());
+                acc += vm;
+                return rng;
+            }, p => p));
     }
 
     private IEnumerable<Planet> ReorderPlanets(Planet[] planets)
