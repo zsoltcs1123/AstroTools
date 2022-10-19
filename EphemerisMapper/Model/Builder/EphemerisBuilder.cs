@@ -7,30 +7,30 @@ namespace EphemerisMapper.Model.Builder;
 
 public class EphemerisBuilder
 {
-    private static readonly List<Nakshatra> Nakshatras = Enum.GetValues<Star>()
+    private static readonly List<Nakshatra> Nakshatras = Enum.GetValues<StarEnum>()
         .Select(s => new Nakshatra(s)).ToList();
 
     public IEnumerable<Ephemeris> Build(MultiEphemerisDto dto)
     {
-        return Enum.GetValues<Planet>()
-            .Where(p => p != Planet.Moon)
+        return Enum.GetValues<PlanetEnum>()
+            .Where(p => p != PlanetEnum.Moon)
             .Select(p =>
             {
                 var degrees = GetDegreesForPlanet(p, dto);
-                return new Ephemeris(p, degrees, 0, dto.Date, Nakshatras.First(n => n.StarRegion.Contains(degrees)));
+                return new Ephemeris(p, degrees, 0, dto.Date, Nakshatras.First(n => n.Region.Contains(degrees)));
             });
     }
 
-    private static Degree GetDegreesForPlanet(Planet planet, MultiEphemerisDto dto) => new(planet switch
+    private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, MultiEphemerisDto dto) => new(planetEnum switch
     {
-        Planet.Ketu => dto.SouthNode,
-        Planet.Venus => dto.Venus,
-        Planet.Sun => dto.Sun,
-        Planet.Mars => dto.Mars,
-        Planet.Rahu => dto.MeanNode,
-        Planet.Jupiter => dto.MeanNode,
-        Planet.Saturn => dto.MeanNode,
-        Planet.Mercury => dto.MeanNode,
+        PlanetEnum.Ketu => dto.SouthNode,
+        PlanetEnum.Venus => dto.Venus,
+        PlanetEnum.Sun => dto.Sun,
+        PlanetEnum.Mars => dto.Mars,
+        PlanetEnum.Rahu => dto.MeanNode,
+        PlanetEnum.Jupiter => dto.MeanNode,
+        PlanetEnum.Saturn => dto.MeanNode,
+        PlanetEnum.Mercury => dto.MeanNode,
         _ => 0m
     });
 }

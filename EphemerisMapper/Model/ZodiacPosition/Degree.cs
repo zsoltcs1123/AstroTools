@@ -24,7 +24,7 @@ public record Degree
 
     public Degree(decimal dec)
     {
-        if (dec is > 360 or < 0)
+        if (dec is > 361 or < 0)
         {
             throw new Exception($"Invalid degree value: {dec}");
         }

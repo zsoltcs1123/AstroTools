@@ -1,46 +1,71 @@
-﻿using EphemerisMapper.Model.Enums;
+﻿using EphemerisMapper.Extensions;
+using EphemerisMapper.Model.Enums;
 using EphemerisMapper.Model.ZodiacPosition;
 using EphemerisMapper.Model.Mappers;
 
 namespace EphemerisMapper.Model.Divisions;
 
-public record Nakshatra
+public record Nakshatra : IDivision
 {
-    public Star Star { get; }
-    public DegreeRange StarRegion { get; }
-    public Planet StarLord { get; }
-    public SubDivision<Planet> SubLords { get; }
+    private static readonly Dictionary<DegreeRange, StarEnum> CuspToStar = GenerateCuspToStar();
 
-    public Nakshatra(Star star)
+    private static Dictionary<DegreeRange, StarEnum> GenerateCuspToStar()
     {
-        Star = star;
-        StarRegion = star.ToDegreeRange();
-        StarLord = star.ToLord();
-        SubLords = GenerateSubLords();
+        var starRegion = new Degree(13, 20, 0);
+        ;
+        decimal acc = 0;
+        return Enum.GetValues<StarEnum>()
+            .ToDictionary(
+                p => new DegreeRange(new Degree(acc).RoundToNearestWhole(),
+                    new Degree(acc += starRegion.Dec).RoundToNearestWhole()), p => p);
     }
 
-    private SubDivision<Planet> GenerateSubLords()
-    {
-        var planets = ReorderPlanets(Enum.GetValues<Planet>());
+    public StarEnum StarEnum { get; }
+    public DegreeRange Region { get; }
+    public PlanetEnum StarLord { get; }
+    public SubDivision<PlanetEnum> SubLords { get; }
+    public string Name { get; }
+    
+    public IEnumerable<SubDivision> SubDivisions { get; }
 
-        var acc = StarRegion.Start;
-        
-        return new SubDivision<Planet>("SubLord", 1, planets
+
+    public Nakshatra(StarEnum starEnum)
+    {
+        StarEnum = starEnum;
+        Region = GetRegion(starEnum);
+        StarLord = starEnum.ToLord();
+        SubLords = GenerateSubLords();
+        Name = starEnum.ToString();
+    }
+
+    private static DegreeRange GetRegion(StarEnum starEnum) => CuspToStar.First(cts => cts.Value == starEnum).Key;
+
+    private SubDivision<PlanetEnum> GenerateSubLords()
+    {
+        var planets = ReorderPlanets(Enum.GetValues<PlanetEnum>());
+
+        var acc = Region.Start;
+
+        return new SubDivision<PlanetEnum>("SubLord", planets
             .ToDictionary(p =>
             {
-                var vm = new Degree(p.ToVimShottari() * StarMapper.StarRegion.Dec) ;
+                var vm = new Degree(p.ToVimShottari() * StarEnumExtensions.StarRegion.Dec);
                 var rng = new DegreeRange(acc.RoundToNearestWhole(), (acc + vm).RoundToNearestWhole());
                 acc += vm;
                 return rng;
             }, p => p));
     }
 
-    private IEnumerable<Planet> ReorderPlanets(Planet[] planets)
+    private IEnumerable<PlanetEnum> ReorderPlanets(PlanetEnum[] planets)
     {
         var rightSide = planets.Where(p => (int)StarLord < (int)p);
         var leftSide = planets.Where(p => (int)StarLord > (int)p);
 
         return new[] { StarLord }.Concat(rightSide).Concat(leftSide).ToArray();
     }
-    
+
+    public override string ToString()
+    {
+        return $"Name: {StarEnum}, {nameof(Region)}: {Region}, {nameof(StarLord)}: {StarLord}";
+    }
 }

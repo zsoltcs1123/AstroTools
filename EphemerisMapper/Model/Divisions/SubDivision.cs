@@ -1,6 +1,6 @@
 ﻿using EphemerisMapper.Model.ZodiacPosition;
-using EphemerisMapper.Model.Enums;
+using EphemerisMapper.Model.Mappers;
 
 namespace EphemerisMapper.Model.Divisions;
 
-public record SubDivision<T>(string Name, int Level, Dictionary<DegreeRange, T> Ranges);
+public record SubDivision(string Name, IEnumerable<SubDivisionRange> Ranges);

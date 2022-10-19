@@ -1,6 +1,6 @@
 ﻿namespace EphemerisMapper.Model.Enums
 {
-    public enum Planet
+    public enum PlanetEnum
     {
         Ketu,
         Venus,
