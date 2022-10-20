@@ -1,4 +1,4 @@
-﻿namespace EphemerisMapper.Model.ZodiacPosition
+﻿namespace EphemerisMapper.Model.Units
 {
     public record DegreeRange(Degree Start, Degree End)
     {

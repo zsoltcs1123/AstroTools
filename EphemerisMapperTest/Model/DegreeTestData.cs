@@ -1,7 +1,7 @@
-﻿using EphemerisMapper.Model.ZodiacPosition;
-using System.Globalization;
+﻿using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
+using EphemerisMapper.Model.Units;
 
 namespace EphemerisMapperTest.Model;
 

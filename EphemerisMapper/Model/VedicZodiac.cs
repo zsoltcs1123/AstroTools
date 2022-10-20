@@ -1,38 +1,29 @@
 ﻿using EphemerisMapper.Model.CelestialObjects;
 using EphemerisMapper.Model.Divisions;
-using EphemerisMapper.Model.Enums;
-using EphemerisMapper.Model.ZodiacPosition;
-using EphemerisMapper.Service.Divisions;
+using EphemerisMapper.Model.Units;
+using EphemerisMapper.Service.Repository.Division;
 
 namespace EphemerisMapper.Model;
 
 public class VedicZodiac
 {
-    private static readonly Degree StarRegion = new Degree(13, 20, 0);
-
-    private readonly Nakshatra[] _nakshatras = GenerateNakshatras();
-
-    private static Nakshatra[] GenerateNakshatras() =>
-        Enum.GetValues<StarEnum>()
-            .Select(s => new Nakshatra(s)).ToArray();
-
-
-    private readonly Dictionary<DegreeRange, Nakshatra> _degreeToNakshatraMap;
+    private readonly IDivisionRepository<Sign> _signRepository;
+    private readonly IDivisionRepository<Nakshatra> _nakshatraRepository;
     private readonly Dictionary<DegreeRange, Planet> _degreeToSubLordMap;
-    private readonly IDivisionProvider<Sign> _signProvider;
 
-    public VedicZodiac(IDivisionProvider<Sign> signProvider)
+    public VedicZodiac(
+        IDivisionRepository<Sign> signRepository,
+        IDivisionRepository<Nakshatra> nakshatraRepository)
     {
-        _signProvider = signProvider;
+        _signRepository = signRepository;
+        _nakshatraRepository = nakshatraRepository;
 
-        _degreeToNakshatraMap = _nakshatras.ToDictionary(n => n.Region, n => n);
-
-        _degreeToSubLordMap = _nakshatras
-            .SelectMany(n => n.SubLords.Ranges)
-            .ToDictionary(rng => rng.Key, rng => new Planet(rng.Value));
+        _degreeToSubLordMap = _nakshatraRepository.GetAll()
+            .SelectMany(n => n.SubDivisions[0].Ranges)
+            .ToDictionary(rng => rng.Range, rng => rng.Lord);
     }
 
-    public Sign GetSign(Degree degree) => _signProvider.Get(degree);
-    public Nakshatra GetNakshatra(Degree degree) => _degreeToNakshatraMap.First(dts => dts.Key.Contains(degree)).Value;
+    public Sign GetSign(Degree degree) => _signRepository.Get(degree);
+    public Nakshatra GetNakshatra(Degree degree) => _nakshatraRepository.Get(degree);
     public Planet GetSubLord(Degree degree) => _degreeToSubLordMap.First(dts => dts.Key.Contains(degree)).Value;
 }

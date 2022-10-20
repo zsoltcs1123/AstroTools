@@ -1,7 +1,6 @@
 ﻿using EphemerisMapper.Model.Divisions;
 using EphemerisMapper.Model.Enums;
-using EphemerisMapper.Model.ZodiacPosition;
-using EphemerisMapper.Model.Mappers;
+using EphemerisMapper.Model.Units;
 
 namespace EphemerisMapper.Model;
 
@@ -26,6 +25,5 @@ public class Ephemeris
         PlanetEnum = planetEnum;
         Speed = speed;
         Date = date;
-        SubLord = nakshatra.SubLords.Ranges.First(rng => rng.Key.Contains(longitude)).Value;
     }
 }

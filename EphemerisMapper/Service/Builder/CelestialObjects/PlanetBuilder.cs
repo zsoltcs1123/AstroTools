@@ -1,12 +1,10 @@
 ﻿using EphemerisMapper.Model.CelestialObjects;
 using EphemerisMapper.Model.Enums;
 
-namespace EphemerisMapper.Service.Builder;
+namespace EphemerisMapper.Service.Builder.CelestialObjects;
 
 public class PlanetBuilder : ICelestialObjectBuilder<Planet>
 {
-    private const decimal VimshottariTotal = 120m;
-
     private static readonly Dictionary<PlanetEnum, int> PlanetsToVimshottariPeriod =
         GeneratePlanetsToVimshottariPeriod();
 

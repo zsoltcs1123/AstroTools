@@ -1,4 +1,4 @@
-﻿namespace EphemerisMapper.Model.ZodiacPosition;
+﻿namespace EphemerisMapper.Model.Units;
 
 public record Degree
 {
@@ -61,6 +61,19 @@ public record Degree
     public static Degree operator +(Degree degree1, decimal dec)
     {
         return new Degree(degree1.Dec + dec);
+    }
+    
+    public Degree RoundToNearestWhole()
+    {
+        uint AddOne(uint u) => u % 10 == 9 ? u + 1 : u;
+        uint SixtyToZero(uint u) => u == 60 ? 0 : u;
+        // uint ThreeSixtyToZero(uint u) => u == 360 ? 0 : u;
+
+        var deg = AddOne(Zodiacal.Degrees);
+        var min = SixtyToZero(AddOne(Zodiacal.Minutes));
+        var sec = SixtyToZero(AddOne(Zodiacal.Seconds));
+
+        return new Degree(deg, min, sec);
     }
 
     private static decimal ConvertFromZodiacalToDecimal(ZodiacalFormat zodiacal)

@@ -1,4 +1,4 @@
-using EphemerisMapper.Model.ZodiacPosition;
+using EphemerisMapper.Model.Units;
 
 namespace EphemerisMapperTest.Model;
 

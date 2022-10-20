@@ -1,4 +1,4 @@
-﻿namespace EphemerisMapper.Model.ZodiacPosition;
+﻿namespace EphemerisMapper.Model.Units;
 
 public record ZodiacalFormat(uint Degrees, uint Minutes, uint Seconds)
 {

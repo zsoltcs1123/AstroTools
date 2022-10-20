@@ -1,6 +1,6 @@
-﻿using EphemerisMapper.Model.ZodiacPosition;
+﻿using EphemerisMapper.Model.Units;
 
-namespace EphemerisMapper.Service.Divisions.Cusps;
+namespace EphemerisMapper.Service.Builder.Cusp;
 
 public interface ICuspGenerator<T> where T : Enum
 {

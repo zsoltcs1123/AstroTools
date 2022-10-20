@@ -3,10 +3,12 @@ using EphemerisMapper.Model.Attributes;
 using EphemerisMapper.Model.CelestialObjects;
 using EphemerisMapper.Model.Divisions;
 using EphemerisMapper.Model.Enums;
-using EphemerisMapper.Model.ZodiacPosition;
-using EphemerisMapper.Service.Divisions.Cusps;
+using EphemerisMapper.Model.Units;
+using EphemerisMapper.Service.Builder.Cusp;
+using EphemerisMapper.Service.Repository;
+using EphemerisMapper.Service.Repository.CelestialObjects;
 
-namespace EphemerisMapper.Service.Builder;
+namespace EphemerisMapper.Service.Builder.Division;
 
 public class SignBuilder : IDivisionBuilder<Sign>
 {
@@ -17,10 +19,10 @@ public class SignBuilder : IDivisionBuilder<Sign>
 
     public SignBuilder(
         ICuspGenerator<SignEnum> cuspGenerator,
-        ICelestialObjectBuilder<Planet> planetBuilder)
+        ICelestialObjectRepository<Planet> planetRepository)
     {
         _signToCusp = cuspGenerator.GenerateCusps(Territory);
-        _planets = planetBuilder.BuildCelestialObjects().ToArray();
+        _planets = planetRepository.GetAll().ToArray();
     }
 
     private Planet GetPlanet(PlanetEnum planetEnum) => _planets.First(p => p.PlanetEnum == planetEnum);

@@ -1,14 +1,14 @@
 ﻿using EphemerisMapper.Model.DataTransfer;
 using EphemerisMapper.Model.Divisions;
 using EphemerisMapper.Model.Enums;
-using EphemerisMapper.Model.ZodiacPosition;
+using EphemerisMapper.Model.Units;
 
 namespace EphemerisMapper.Model.Builder;
 
 public class EphemerisBuilder
 {
-    private static readonly List<Nakshatra> Nakshatras = Enum.GetValues<StarEnum>()
-        .Select(s => new Nakshatra(s)).ToList();
+    private static readonly List<Nakshatra> Nakshatras; /*Enum.GetValues<StarEnum>()
+        .Select(s => new Nakshatra(s)).ToList();*/
 
     public IEnumerable<Ephemeris> Build(MultiEphemerisDto dto)
     {
