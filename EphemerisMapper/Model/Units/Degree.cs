@@ -67,13 +67,12 @@ public record Degree
     {
         uint AddOne(uint u) => u % 10 == 9 ? u + 1 : u;
         uint SixtyToZero(uint u) => u == 60 ? 0 : u;
-        // uint ThreeSixtyToZero(uint u) => u == 360 ? 0 : u;
 
-        var deg = AddOne(Zodiacal.Degrees);
-        var min = SixtyToZero(AddOne(Zodiacal.Minutes));
-        var sec = SixtyToZero(AddOne(Zodiacal.Seconds));
+        var sec = AddOne(Zodiacal.Seconds);
+        var min = sec == 60 ? Zodiacal.Minutes + 1 : Zodiacal.Minutes;
+        var deg = min == 60 ? Zodiacal.Degrees + 1 : Zodiacal.Degrees;
 
-        return new Degree(deg, min, sec);
+        return new Degree(deg, SixtyToZero(min), SixtyToZero(sec));
     }
 
     private static decimal ConvertFromZodiacalToDecimal(ZodiacalFormat zodiacal)

@@ -39,5 +39,8 @@ var vedicZodiac = new VedicZodiac(signRepository, starRepository);
 
 var sign = vedicZodiac.GetSign(new Degree(30));
 var nakshatra = vedicZodiac.GetNakshatra(new Degree(5, 13, 5));
+var sl = vedicZodiac.GetSubLord(new Degree(0, 20, 1));
+
+var deg = new Degree(0,5,40);
 
 Console.ReadLine();

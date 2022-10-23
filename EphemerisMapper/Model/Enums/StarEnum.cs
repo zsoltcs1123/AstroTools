@@ -6,56 +6,56 @@ public enum StarEnum
 {
     [TraditionalLord(PlanetEnum.Ketu)]
     Aswini,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Venus)]
     Bharani,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Sun)]
     Krittika,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Moon)]
     Rohini,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Mars)]
     Mrigashira,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Rahu)]
     Adra,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Jupiter)]
     Punarvasu,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Saturn)]
     Pushya,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Mercury)]
     Aslesha,
     [TraditionalLord(PlanetEnum.Ketu)]
     Magha,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Venus)]
     PurvaPhalguni,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Sun)]
     UttaraPhalguni,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Moon)]
     Hasta,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Mars)]
     Chitra,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Rahu)]
     Swati,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Jupiter)]
     Vishaka,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Saturn)]
     Anuradha,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Mercury)]
     Jyestha,
     [TraditionalLord(PlanetEnum.Ketu)]
     Mula,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Venus)]
     PurvaAshadha,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Sun)]
     UttaraAshadha,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Moon)]
     Sravana,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Mars)]
     Dhanishta,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Rahu)]
     Shatabhisha,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Jupiter)]
     PurvaBhadrapada,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Saturn)]
     UttaraBhadrapada,
-    [TraditionalLord(PlanetEnum.Ketu)]
+    [TraditionalLord(PlanetEnum.Mercury)]
     Revati,
 }

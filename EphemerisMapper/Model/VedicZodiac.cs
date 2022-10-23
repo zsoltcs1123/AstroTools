@@ -10,6 +10,8 @@ public class VedicZodiac
     private readonly IDivisionRepository<Sign> _signRepository;
     private readonly IDivisionRepository<Nakshatra> _nakshatraRepository;
     private readonly Dictionary<DegreeRange, Planet> _degreeToSubLordMap;
+    
+    
 
     public VedicZodiac(
         IDivisionRepository<Sign> signRepository,
