@@ -2,22 +2,27 @@
 using EphemerisMapper.Model.Divisions;
 using EphemerisMapper.Model.Enums;
 using EphemerisMapper.Model.Units;
+using EphemerisMapper.Service.Zodiac;
 
-namespace EphemerisMapper.Model.Builder;
+namespace EphemerisMapper.Service.Builder.Ephemeris;
 
 public class EphemerisBuilder
 {
-    private static readonly List<Nakshatra> Nakshatras; /*Enum.GetValues<StarEnum>()
-        .Select(s => new Nakshatra(s)).ToList();*/
+    private readonly IZodiac _zodiac;
 
-    public IEnumerable<Ephemeris> Build(MultiEphemerisDto dto)
+    public EphemerisBuilder(IZodiac zodiac)
+    {
+        _zodiac = zodiac;
+    }
+
+    public IEnumerable<Model.Units.Ephemeris> Build(MultiEphemerisDto dto)
     {
         return Enum.GetValues<PlanetEnum>()
             .Where(p => p != PlanetEnum.Moon)
             .Select(p =>
             {
                 var degrees = GetDegreesForPlanet(p, dto);
-                return new Ephemeris(p, degrees, 0, dto.Date, Nakshatras.First(n => n.Region.Contains(degrees)));
+                return new Model.Units.Ephemeris(p, degrees, 0, dto.Date, _zodiac.Map(degrees));
             });
     }
 

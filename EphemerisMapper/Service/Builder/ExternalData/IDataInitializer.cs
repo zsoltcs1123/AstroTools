@@ -1,4 +1,4 @@
-﻿namespace EphemerisMapper.Service
+﻿namespace EphemerisMapper.Service.Builder.ExternalData
 {
     internal interface IDataInitializer<T, Req>
     {

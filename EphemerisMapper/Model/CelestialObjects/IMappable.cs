@@ -1,5 +1,6 @@
 ﻿namespace EphemerisMapper.Model.CelestialObjects;
 
-public interface ICelestialObject : IMappable
+public interface IMappable
 {
+    string Name { get; }
 }

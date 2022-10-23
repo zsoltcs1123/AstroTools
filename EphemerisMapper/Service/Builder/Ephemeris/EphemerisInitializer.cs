@@ -1,7 +1,8 @@
-﻿using CsvHelper;
-using System.Globalization;
+﻿using System.Globalization;
+using CsvHelper;
+using EphemerisMapper.Service.Builder.ExternalData;
 
-namespace EphemerisMapper.Service
+namespace EphemerisMapper.Service.Builder.Ephemeris
 {
     internal class EphemerisInitializer<T> : CsvDatainitializer<IEnumerable<T>, string>
     {
