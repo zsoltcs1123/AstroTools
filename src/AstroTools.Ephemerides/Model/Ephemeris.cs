@@ -2,7 +2,7 @@
 using AstroTools.Common.Model;
 using AstroTools.Common.Model.Degree;
 
-namespace AstroTools.Ephemeris.Model;
+namespace AstroTools.Ephemerides.Model;
 
 public class Ephemeris
 {

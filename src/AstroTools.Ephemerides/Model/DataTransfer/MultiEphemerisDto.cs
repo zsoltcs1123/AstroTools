@@ -1,4 +1,4 @@
-﻿namespace AstroTools.Ephemeris.Model.DataTransfer
+﻿namespace AstroTools.Ephemerides.Model.DataTransfer
 {
     public record MultiEphemerisDto(
         DateTime Date,

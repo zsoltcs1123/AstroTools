@@ -1,10 +1,10 @@
 ﻿using AstroTools.CelestialObjects.Model;
 using AstroTools.Common.Factory;
 using AstroTools.Common.Model.Degree;
-using AstroTools.Ephemeris.Model.DataTransfer;
+using AstroTools.Ephemerides.Model.DataTransfer;
 using AstroTools.Zodiac.Service;
 
-namespace AstroTools.Ephemeris.Factory;
+namespace AstroTools.Ephemerides.Factory;
 
 public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, EphemerisDto>
 {

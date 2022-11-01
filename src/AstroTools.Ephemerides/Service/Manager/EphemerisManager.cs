@@ -1,6 +1,6 @@
 ﻿using AstroTools.CelestialObjects.Model;
 
-namespace AstroTools.Ephemeris.Service.Manager;
+namespace AstroTools.Ephemerides.Service.Manager;
 
 public class EphemerisManager
 {

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AstroTools.Ephemerides\AstroTools.Ephemerides.csproj" />
+    <ProjectReference Include="..\AstroTools.Events\AstroTools.Events.csproj" />
     <ProjectReference Include="..\AstroTools.Zodiac\AstroTools.Zodiac.csproj" />
   </ItemGroup>
 

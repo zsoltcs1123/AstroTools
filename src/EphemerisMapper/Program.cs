@@ -2,9 +2,10 @@
 using AstroTools.CelestialObjects.Model;
 using AstroTools.CelestialObjects.Repository;
 using AstroTools.Common.Service.DataProvider;
-using AstroTools.Ephemeris.Factory;
-using AstroTools.Ephemeris.Model.DataTransfer;
-using AstroTools.Ephemeris.Service.Manager;
+using AstroTools.Ephemerides.Factory;
+using AstroTools.Ephemerides.Model.DataTransfer;
+using AstroTools.Ephemerides.Service.Manager;
+using AstroTools.Events.Service;
 using AstroTools.Zodiac.Factory;
 using AstroTools.Zodiac.Model.Divisions;
 using AstroTools.Zodiac.Model.Enums;
@@ -54,12 +55,20 @@ void Moon()
     var moon = ephemerisManager.GetByPlanet(PlanetEnum.Moon,
         new DateTime(2022, 10, 1), DateTime.Now.AddDays(10));
 
-    foreach (var ephemeris in moon)
+    /*foreach (var ephemeris in moon)
     {
         Console.WriteLine($"{ephemeris.Key} [{ephemeris.Value.Longitude.Dec}]: " +
                           $"{ephemeris.Value.MappedData["Sign"].Name} | " +
                           $"{ephemeris.Value.MappedData["Star"].Name} | " +
                           $" {ephemeris.Value.MappedData["SubLord"].Name}");
+    }*/
+
+    var eventFact = new AstroEventFactory();
+    var events = eventFact.CreateAll(ephemerides);
+
+    foreach (var @event in events.Where(e => e.Name == "SignChange"))
+    {
+        Console.WriteLine(@event);
     }
 }
 
