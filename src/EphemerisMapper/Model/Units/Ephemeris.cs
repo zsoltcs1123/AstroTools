@@ -11,7 +11,7 @@ public class Ephemeris
     public bool IsRetrograde => Speed < 0;
     public DateTime Date { get; }
 
-    private Dictionary<string, IMappable> Mapped { get; }
+    public Dictionary<string, IMappable> Mapped { get; }
 
     public Ephemeris(PlanetEnum planetEnum, Degree longitude, decimal speed, DateTime date, Dictionary<string, IMappable> mapped)
     {

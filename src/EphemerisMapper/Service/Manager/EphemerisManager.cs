@@ -23,4 +23,12 @@ public class EphemerisManager
             .Where(e => e.Date >= (startDate ?? _firstDate) && e.Date <= (endDate ?? _lastDate))
             .ToDictionary(e => e.Date, e => e);
     }
+    
+    public IEnumerable<IGrouping<DateTime, Model.Units.Ephemeris>> GetByDate(DateTime? startDate = null,
+        DateTime? endDate = null)
+    {
+        return _ephemerides
+            .Where(e => e.Date >= (startDate ?? _firstDate) && e.Date <= (endDate ?? _lastDate))
+            .GroupBy(e => e.Date, e => e);
+    }
 }

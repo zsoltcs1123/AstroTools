@@ -25,6 +25,17 @@ public class EphemerisBuilder
                 return new Model.Units.Ephemeris(p, degrees, 0, dto.Date, _zodiac.Map(degrees));
             });
     }
+    
+    public IEnumerable<Model.Units.Ephemeris> Build(MoonEphemerisDto dto)
+    {
+        return Enum.GetValues<PlanetEnum>()
+            .Where(p => p == PlanetEnum.Moon)
+            .Select(p =>
+            {
+                var degrees = GetDegreesForPlanet(p, dto);
+                return new Model.Units.Ephemeris(p, degrees, 0, dto.Date, _zodiac.Map(degrees));
+            });
+    }
 
     private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, MultiEphemerisDto dto) => new(planetEnum switch
     {
@@ -33,9 +44,15 @@ public class EphemerisBuilder
         PlanetEnum.Sun => dto.Sun,
         PlanetEnum.Mars => dto.Mars,
         PlanetEnum.Rahu => dto.MeanNode,
-        PlanetEnum.Jupiter => dto.MeanNode,
-        PlanetEnum.Saturn => dto.MeanNode,
-        PlanetEnum.Mercury => dto.MeanNode,
+        PlanetEnum.Jupiter => dto.Jupiter,
+        PlanetEnum.Saturn => dto.Saturn,
+        PlanetEnum.Mercury => dto.Mercury,
+        _ => 0m
+    });
+    
+    private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, MoonEphemerisDto dto) => new(planetEnum switch
+    {
+        PlanetEnum.Moon => dto.Moon,
         _ => 0m
     });
 }

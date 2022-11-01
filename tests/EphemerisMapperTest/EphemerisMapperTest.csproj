@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EphemerisMapper\EphemerisMapper.csproj" />
+      <ProjectReference Include="..\..\src\EphemerisMapper\EphemerisMapper.csproj" />
     </ItemGroup>
 
     <ItemGroup>
