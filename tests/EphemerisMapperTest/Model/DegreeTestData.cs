@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
+using AstroTools.Common.Model.Degree;
 using CsvHelper;
 using CsvHelper.Configuration;
-using EphemerisMapper.Model.Units;
 
 namespace EphemerisMapperTest.Model;
 

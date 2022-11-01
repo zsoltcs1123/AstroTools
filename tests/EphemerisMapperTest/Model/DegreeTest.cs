@@ -1,4 +1,5 @@
-using EphemerisMapper.Model.Units;
+
+using AstroTools.Common.Model.Degree;
 
 namespace EphemerisMapperTest.Model;
 

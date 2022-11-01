@@ -1,5 +1,7 @@
-﻿using EphemerisMapper.Model.Attributes;
-using EphemerisMapper.Model.Enums;
+﻿using AstroTools.CelestialObjects.Model;
+using AstroTools.Common.Extensions;
+using AstroTools.Zodiac.Attributes;
+using AstroTools.Zodiac.Model.Enums;
 
 namespace EphemerisMapper.Extensions;
 
