@@ -5,7 +5,8 @@ using AstroTools.Common.Service.DataProvider;
 using AstroTools.Ephemerides.Factory;
 using AstroTools.Ephemerides.Model.DataTransfer;
 using AstroTools.Ephemerides.Service.Manager;
-using AstroTools.Events.Service;
+using AstroTools.Events.Factory;
+using AstroTools.Scripts.Service;
 using AstroTools.Zodiac.Factory;
 using AstroTools.Zodiac.Model.Divisions;
 using AstroTools.Zodiac.Model.Enums;
@@ -36,7 +37,7 @@ var vedicZodiac = new VedicZodiac(signRepository, starRepository);
 var nakshatra = vedicZodiac.GetNakshatra(new Degree(5, 13, 5));
 var sl = vedicZodiac.GetSubLord(new Degree(0, 20, 1));*/
 
-Moon();
+Multi();
 
 Console.ReadLine();
 
@@ -66,7 +67,7 @@ void Moon()
     var eventFact = new AstroEventFactory();
     var events = eventFact.CreateAll(ephemerides);
 
-    foreach (var @event in events.Where(e => e.Name == "SignChange"))
+    foreach (var @event in events.Where(e => e.Name.Contains("SignChange")))
     {
         Console.WriteLine(@event);
     }
@@ -92,7 +93,7 @@ void Multi()
     Console.WriteLine($"{ephemeris.Key} | {ephemeris.Value.Mapped["SubLord"].Name}");
 }*/
 
-    foreach (var grp in today)
+    /*foreach (var grp in today)
     {
         Console.WriteLine($"{grp.Key}");
         foreach (var ephemeris in grp)
@@ -102,7 +103,24 @@ void Multi()
         }
 
         Console.WriteLine();
-    }
+    }*/
+
+    var eventFact = new AstroEventFactory();
+    var events = eventFact.CreateAll(ephemerides);
+
+    /*foreach (var @event in events.Where(e => e.Name.Contains("Sun") && e.Date > new DateTime(2022,8,1)))
+    {
+        Console.WriteLine(@event);
+    }*/
+
+    var sun = events.Where(e =>
+        e.Name.Contains("Sun") && e.Date > new DateTime(2022, 8, 1) && e.Date < new DateTime(2023, 1, 1));
+    var scripter = new AstroEventsScriptGenerator();
+
+    var script = scripter.Generate(sun);
+
+    Console.WriteLine(script.Timestamps);
+    Console.WriteLine(script.Labels);
 
     Console.ReadLine();
 }

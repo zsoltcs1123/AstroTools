@@ -3,7 +3,7 @@ using AstroTools.Common.Model;
 using AstroTools.Ephemerides.Model;
 using AstroTools.Events.Model;
 
-namespace AstroTools.Events.Service;
+namespace AstroTools.Events.Factory;
 
 public class AstroEventFactory : IParameterizedFactory<AstroEvent, IEnumerable<Ephemeris>>
 {
@@ -11,11 +11,14 @@ public class AstroEventFactory : IParameterizedFactory<AstroEvent, IEnumerable<E
     {
         var ret = new List<AstroEvent>();
 
-        var ephems = ephemerides.OrderBy(e => e.Date).ToArray();
+        var ephems = ephemerides.OrderBy(e => e.PlanetEnum).ThenBy(e => e.Date).ToArray();
         for (var i = 1; i < ephems.Length; i++)
         {
-            var changed = FilterForChangeInMappedData(ephems[i], ephems[i - 1]);
-            ret.AddRange(CreateAstroEvents(ephems[i].Date, changed));
+            if (ephems[i].PlanetEnum == ephems[i - 1].PlanetEnum)
+            {
+                var changed = FilterForChangeInMappedData(ephems[i], ephems[i - 1]);
+                ret.AddRange(CreateAstroEvents(ephems[i], changed));
+            }
         }
 
         return ret;
@@ -29,12 +32,13 @@ public class AstroEventFactory : IParameterizedFactory<AstroEvent, IEnumerable<E
             .Select(mapped => (mapped.Key, mapped.Value, previous.MappedData[mapped.Key]));
     }
 
-    private static IEnumerable<AstroEvent> CreateAstroEvents(DateTime date,
+    private static IEnumerable<AstroEvent> CreateAstroEvents(Ephemeris current,
         IEnumerable<(string Key, IMappable Current, IMappable Previous)> changed)
     {
         return changed
             .Select(changes =>
-                new AstroEvent(date, $"{changes.Key}Change", CreateDescription(changes.Current, changes.Previous)));
+                new AstroEvent(current.Date, $"{current.PlanetEnum} {changes.Key}Change",
+                    CreateDescription(changes.Current, changes.Previous)));
     }
 
     private static string CreateDescription(IMappable current, IMappable previous)
