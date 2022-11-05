@@ -1,13 +1,13 @@
-﻿using AstroTools.CelestialObjects.Factory;
-using AstroTools.CelestialObjects.Model;
-using AstroTools.CelestialObjects.Repository;
+﻿using AstroTools.Common.Extensions;
+using AstroTools.Common.Repository;
 using AstroTools.Common.Service.DataProvider;
 using AstroTools.Ephemerides.Factory;
 using AstroTools.Ephemerides.Model.DataTransfer;
-using AstroTools.Ephemerides.Service.Manager;
 using AstroTools.Events.Factory;
+using AstroTools.Events.Model;
 using AstroTools.Scripts.Service;
 using AstroTools.Zodiac.Factory;
+using AstroTools.Zodiac.Model.CelestialObjects;
 using AstroTools.Zodiac.Model.Divisions;
 using AstroTools.Zodiac.Model.Enums;
 using AstroTools.Zodiac.Service;
@@ -19,108 +19,50 @@ using AstroTools.Zodiac.Service.SubDivision;
 var signCuspGenerator = new CuspGenerator<SignEnum>();
 var starCuspGenerator = new CuspGenerator<StarEnum>();
 
-var planetBuilder = new PlanetFactory();
-var planetRepository = new PlanetRepository(planetBuilder);
+var planetFactory = new PlanetFactory();
+var planetRepository = new PlanetRepository(planetFactory);
 
 var starSubDivisionBuilder = new NakshatraSubDivisionBuilder(planetRepository);
 
-var signBuilder = new SignBuilder(signCuspGenerator, planetRepository, null);
-var starBuilder = new NakshatraBuilder(starCuspGenerator, planetRepository, starSubDivisionBuilder);
+var signFactory = new SignFactory(signCuspGenerator, planetRepository, null);
+var starFactory = new NakshatraFactory(starCuspGenerator, planetRepository, starSubDivisionBuilder);
 
-
-var signRepository = new DivisionRepository<Sign>(signBuilder);
-var starRepository = new DivisionRepository<Nakshatra>(starBuilder);
+var signRepository = new DivisionRepository<Sign>(signFactory);
+var starRepository = new DivisionRepository<Nakshatra>(starFactory);
 
 var vedicZodiac = new VedicZodiac(signRepository, starRepository);
 
-/*var sign = vedicZodiac.GetSign(new Degree(30));
-var nakshatra = vedicZodiac.GetNakshatra(new Degree(5, 13, 5));
-var sl = vedicZodiac.GetSubLord(new Degree(0, 20, 1));*/
+var ephemFile = "Resources\\ephem_sidereal_krishnamurti_2022-2023_4h_mean.csv";
+var ephemerisBuilder = new EphemerisFactory(vedicZodiac, planetFactory);
+var ephemerisInitializer = new CsvDataProvider<MultiEphemerisDto>();
 
-Multi();
+var ephemerides = ephemerisInitializer.Provide(ephemFile).SelectMany(e => ephemerisBuilder.Build(e)).ToList();
 
-Console.ReadLine();
+var eventFact = new AstroEventFactory();
+var events = eventFact.CreateAll(ephemerides).ToList();
 
+var astroEventRepository = new GenericRepository<AstroEvent>(events);
+var scriptGenerator = new AstroEventsScriptGenerator();
 
-void Moon()
+var outputDir = @"C:\Users\Zsolt\source\repos\tv\";
+
+foreach (var planetEnum in Enum.GetValues<PlanetEnum>())
 {
-    var moonEphemFile = "Resources\\moon_ephem_sidereal_krishnamurti_2022Mar1_2022Dec31.csv";
-
-    var ephemerisBuilder = new EphemerisFactory(vedicZodiac);
-    var ephemerisInitializer = new CsvDataProvider<MoonEphemerisDto>();
-
-    var ephemerides = ephemerisInitializer.Provide(moonEphemFile).SelectMany(e => ephemerisBuilder.Build(e))
-        .ToList();
-    var ephemerisManager = new EphemerisManager(ephemerides);
-
-    var moon = ephemerisManager.GetByPlanet(PlanetEnum.Moon,
-        new DateTime(2022, 10, 1), DateTime.Now.AddDays(10));
-
-    /*foreach (var ephemeris in moon)
+    DateTime? startDate = planetEnum switch
     {
-        Console.WriteLine($"{ephemeris.Key} [{ephemeris.Value.Longitude.Dec}]: " +
-                          $"{ephemeris.Value.MappedData["Sign"].Name} | " +
-                          $"{ephemeris.Value.MappedData["Star"].Name} | " +
-                          $" {ephemeris.Value.MappedData["SubLord"].Name}");
-    }*/
+        PlanetEnum.Sun or PlanetEnum.Mercury or PlanetEnum.Venus => new DateTime(2020, 08, 01),
+        PlanetEnum.Mars => new DateTime(2020, 06, 01),
+        PlanetEnum.Jupiter or PlanetEnum.Saturn => new DateTime(2020, 3, 1),
+        PlanetEnum.Rahu or PlanetEnum.Ketu => new DateTime(2020, 1, 1),
+        _ => null
+    };
 
-    var eventFact = new AstroEventFactory();
-    var events = eventFact.CreateAll(ephemerides);
+    DateTime? endDate = new DateTime(2023, 01, 01);
 
-    foreach (var @event in events.Where(e => e.Name.Contains("SignChange")))
-    {
-        Console.WriteLine(@event);
-    }
-}
+    var eventsForPlanet =
+        astroEventRepository.Get(e => e.Planet.PlanetEnum == planetEnum && e.Date.IsBetween(startDate, endDate));
 
-void Multi()
-{
-    var ephemFile = "Resources\\ephem_sidereal_krishnamurti_2016-2023_mean.csv";
+    var script = scriptGenerator.Generate(eventsForPlanet, "Resources/tv_vedic_sun.txt");
 
-    var ephemerisBuilder = new EphemerisFactory(vedicZodiac);
-    var ephemerisInitializer = new CsvDataProvider<MultiEphemerisDto>();
-
-    var ephemerides = ephemerisInitializer.Provide(ephemFile).SelectMany(e => ephemerisBuilder.Build(e)).ToList();
-
-    var ephemerisManager = new EphemerisManager(ephemerides);
-
-    var jup = ephemerisManager.GetByPlanet(PlanetEnum.Jupiter, new DateTime(2022, 1, 1), DateTime.Now.AddMonths(2));
-
-    var today = ephemerisManager.GetByDate(DateTime.Today.AddDays(-3), DateTime.Today.AddDays(2));
-
-/*foreach (var ephemeris in jup)
-{
-    Console.WriteLine($"{ephemeris.Key} | {ephemeris.Value.Mapped["SubLord"].Name}");
-}*/
-
-    /*foreach (var grp in today)
-    {
-        Console.WriteLine($"{grp.Key}");
-        foreach (var ephemeris in grp)
-        {
-            Console.WriteLine(
-                $"{ephemeris.PlanetEnum} [{ephemeris.Longitude.Dec}]: {ephemeris.MappedData["SubLord"].Name}");
-        }
-
-        Console.WriteLine();
-    }*/
-
-    var eventFact = new AstroEventFactory();
-    var events = eventFact.CreateAll(ephemerides);
-
-    /*foreach (var @event in events.Where(e => e.Name.Contains("Sun") && e.Date > new DateTime(2022,8,1)))
-    {
-        Console.WriteLine(@event);
-    }*/
-
-    var sun = events.Where(e =>
-        e.Name.Contains("Sun") && e.Date > new DateTime(2022, 8, 1) && e.Date < new DateTime(2023, 1, 1));
-    var scripter = new AstroEventsScriptGenerator();
-
-    var script = scripter.Generate(sun);
-
-    Console.WriteLine(script.Timestamps);
-    Console.WriteLine(script.Labels);
-
-    Console.ReadLine();
+    File.WriteAllText(outputDir + $"vedic {planetEnum}.txt", script);
 }

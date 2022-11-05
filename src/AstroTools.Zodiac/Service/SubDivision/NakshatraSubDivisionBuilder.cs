@@ -1,6 +1,6 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Common.Model.Degree;
+﻿using AstroTools.Common.Model.Degree;
 using AstroTools.Common.Repository;
+using AstroTools.Zodiac.Model.CelestialObjects;
 using AstroTools.Zodiac.Model.Divisions;
 using AstroTools.Zodiac.Model.SubDivisions;
 

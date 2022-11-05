@@ -1,4 +1,4 @@
-﻿namespace AstroTools.CelestialObjects.Model
+﻿namespace AstroTools.Zodiac.Model.CelestialObjects
 {
     public enum PlanetEnum
     {

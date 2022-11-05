@@ -1,5 +1,5 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Zodiac.Attributes;
+﻿using AstroTools.Zodiac.Attributes;
+using AstroTools.Zodiac.Model.CelestialObjects;
 
 namespace AstroTools.Zodiac.Model.Enums;
 

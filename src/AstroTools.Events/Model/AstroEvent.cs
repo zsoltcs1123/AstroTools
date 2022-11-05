@@ -1,6 +1,8 @@
-﻿namespace AstroTools.Events.Model;
+﻿using AstroTools.Zodiac.Model.CelestialObjects;
 
-public record AstroEvent(DateTime Date, string Name, string Description)
+namespace AstroTools.Events.Model;
+
+public record AstroEvent(Planet Planet, DateTime Date, string Name, string Description)
 {
     public override string ToString()
     {

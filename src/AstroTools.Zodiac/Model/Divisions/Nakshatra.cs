@@ -1,5 +1,5 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Common.Model.Degree;
+﻿using AstroTools.Common.Model.Degree;
+using AstroTools.Zodiac.Model.CelestialObjects;
 using AstroTools.Zodiac.Model.Enums;
 using AstroTools.Zodiac.Model.SubDivisions;
 

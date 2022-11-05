@@ -1,9 +1,10 @@
 ﻿using AstroTools.Common.Model;
 using AstroTools.Common.Model.Degree;
+using AstroTools.Zodiac.Model.CelestialObjects;
 
 namespace AstroTools.Zodiac.Service;
 
 public interface IZodiac
 {
-    Dictionary<string, IMappable> Map(Degree degree);
+    IEnumerable<MappedData> Map(Planet planet, Degree degree);
 }

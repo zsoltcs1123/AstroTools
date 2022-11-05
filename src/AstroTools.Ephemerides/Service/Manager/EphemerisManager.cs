@@ -1,4 +1,4 @@
-﻿using AstroTools.CelestialObjects.Model;
+﻿using AstroTools.Zodiac.Model.CelestialObjects;
 
 namespace AstroTools.Ephemerides.Service.Manager;
 
@@ -19,7 +19,7 @@ public class EphemerisManager
         DateTime? endDate = null)
     {
         return _ephemerides
-            .Where(e => e.PlanetEnum == planetEnum)
+            .Where(e => e.Planet.PlanetEnum == planetEnum)
             .Where(e => e.Date >= (startDate ?? _firstDate) && e.Date <= (endDate ?? _lastDate))
             .ToDictionary(e => e.Date, e => e);
     }

@@ -1,6 +1,13 @@
-﻿namespace AstroTools.Common.Repository;
+﻿using System.Linq.Expressions;
 
-public interface IRepository<out T>
+namespace AstroTools.Common.Repository;
+
+public interface IRepository<TEntity>
 {
-    IEnumerable<T> GetAll();
+    IEnumerable<TEntity> GetAll();
+
+    IEnumerable<TEntity> Get(
+        Expression<Func<TEntity, bool>>? filter = null,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        string includeProperties = "");
 }

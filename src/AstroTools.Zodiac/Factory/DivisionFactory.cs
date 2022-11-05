@@ -1,16 +1,16 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Common.Extensions;
+﻿using AstroTools.Common.Extensions;
 using AstroTools.Common.Factory;
 using AstroTools.Common.Model.Degree;
 using AstroTools.Common.Repository;
 using AstroTools.Zodiac.Attributes;
+using AstroTools.Zodiac.Model.CelestialObjects;
 using AstroTools.Zodiac.Model.Divisions;
 using AstroTools.Zodiac.Service.Cusp;
 using AstroTools.Zodiac.Service.SubDivision;
 
 namespace AstroTools.Zodiac.Factory;
 
-public abstract class DivisionBuilder<T, TU> : IFactory<T> where T : IDivision where TU : Enum
+public abstract class DivisionFactory<T, TU> : IFactory<T> where T : IDivision where TU : Enum
 {
     private readonly Planet[] _planets;
 
@@ -21,7 +21,7 @@ public abstract class DivisionBuilder<T, TU> : IFactory<T> where T : IDivision w
     private static PlanetEnum GetLordEnum(TU signEnum) => signEnum.Get<TraditionalLordAttribute>().Lord;
     protected Planet GetLord(TU signEnum) => GetPlanet(GetLordEnum(signEnum));
 
-    protected DivisionBuilder(
+    protected DivisionFactory(
         Degree territory,
         ICuspGenerator<TU> cuspGenerator,
         IRepository<Planet> planetRepository,

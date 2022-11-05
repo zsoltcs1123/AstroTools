@@ -1,7 +1,8 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Common.Model;
+﻿using AstroTools.Common.Model;
 using AstroTools.Common.Model.Degree;
+using AstroTools.Zodiac.Model.CelestialObjects;
 using AstroTools.Zodiac.Model.Divisions;
+using AstroTools.Zodiac.Model.Enums;
 using AstroTools.Zodiac.Service.Repository;
 
 namespace AstroTools.Zodiac.Service;
@@ -28,17 +29,26 @@ public class VedicZodiac : IZodiac
     public Nakshatra GetNakshatra(Degree degree) => _nakshatraRepository.Get(degree);
     public Planet GetSubLord(Degree degree) => _degreeToSubLordMap.First(dts => dts.Key.Contains(degree)).Value;
 
-    public Dictionary<string, IMappable> Map(Degree degree)
+    private string GetStatus(Planet planet, Sign sign)
+    {
+        return planet.GetType()
+            .GetProperties()
+            .First(prop => (prop.GetValue(planet) as SignEnum[] ?? Array.Empty<SignEnum>())
+                .Contains(sign.SignEnum)).Name;
+    }
+
+    public IEnumerable<MappedData> Map(Planet planet, Degree degree)
     {
         var sign = GetSign(degree);
         var star = GetNakshatra(degree);
-        return new Dictionary<string, IMappable>()
+        var subLord = GetSubLord(degree);
+        return new[]
         {
-            { "Sign", sign },
-            { "SignLord", sign.Lord },
-            { "Star", star },
-            { "StarLord", star.Lord },
-            { "SubLord", GetSubLord(degree) },
+            new MappedData("Sign", sign, GetStatus(planet, sign)),
+            new MappedData("SignLord", sign.Lord, GetStatus(sign.Lord, sign)),
+            new MappedData("Star", star),
+            new MappedData("StarLord", star.Lord, GetStatus(star.Lord, sign)),
+            new MappedData("SubLord", subLord, GetStatus(subLord, sign))
         };
     }
 }

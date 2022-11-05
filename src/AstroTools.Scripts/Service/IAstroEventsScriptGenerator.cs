@@ -4,5 +4,5 @@ namespace AstroTools.Scripts.Service;
 
 public interface IAstroEventsScriptGenerator
 {
-    (string Timestamps, string Labels) Generate(IEnumerable<AstroEvent> astroEvents);
+    string Generate(IEnumerable<AstroEvent> astroEvents, string inputFileName);
 }

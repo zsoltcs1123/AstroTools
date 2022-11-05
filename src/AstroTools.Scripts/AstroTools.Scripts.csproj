@@ -10,4 +10,15 @@
       <ProjectReference Include="..\AstroTools.Events\AstroTools.Events.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Resources" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\tv_vedic_sun.txt" />
+      <Content Include="Resources\tv_vedic_sun.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

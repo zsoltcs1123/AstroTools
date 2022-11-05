@@ -1,7 +1,7 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Common.Factory;
+﻿using AstroTools.Common.Factory;
 using AstroTools.Common.Model.Degree;
 using AstroTools.Ephemerides.Model.DataTransfer;
+using AstroTools.Zodiac.Model.CelestialObjects;
 using AstroTools.Zodiac.Service;
 
 namespace AstroTools.Ephemerides.Factory;
@@ -9,10 +9,12 @@ namespace AstroTools.Ephemerides.Factory;
 public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, EphemerisDto>
 {
     private readonly IZodiac _zodiac;
+    private readonly Dictionary<PlanetEnum, Planet> _planets;
 
-    public EphemerisFactory(IZodiac zodiac)
+    public EphemerisFactory(IZodiac zodiac, IFactory<Planet> planetFactory)
     {
         _zodiac = zodiac;
+        _planets = planetFactory.CreateAll().ToDictionary(p => p.PlanetEnum, p => p);
     }
 
     public IEnumerable<Model.Ephemeris> CreateAll(EphemerisDto parameter)
@@ -32,7 +34,8 @@ public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, Ephemeris
             .Select(p =>
             {
                 var degrees = GetDegreesForPlanet(p, dto);
-                return new Model.Ephemeris(p, degrees, 0, dto.Date, _zodiac.Map(degrees));
+                var planet = _planets[p];
+                return new Model.Ephemeris(planet, degrees, 0, dto.Date, _zodiac.Map(planet, degrees));
             });
     }
 
@@ -43,7 +46,8 @@ public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, Ephemeris
             .Select(p =>
             {
                 var degrees = GetDegreesForPlanet(p, dto);
-                return new Model.Ephemeris(p, degrees, 0, dto.Date, _zodiac.Map(degrees));
+                var planet = _planets[p];
+                return new Model.Ephemeris(planet, degrees, 0, dto.Date, _zodiac.Map(planet, degrees));
             });
     }
 

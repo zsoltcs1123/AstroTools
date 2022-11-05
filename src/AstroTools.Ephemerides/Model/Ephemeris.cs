@@ -1,25 +1,25 @@
-﻿using AstroTools.CelestialObjects.Model;
-using AstroTools.Common.Model;
+﻿using AstroTools.Common.Model;
 using AstroTools.Common.Model.Degree;
+using AstroTools.Zodiac.Model.CelestialObjects;
 
 namespace AstroTools.Ephemerides.Model;
 
 public class Ephemeris
 {
     public Degree Longitude { get; }
-    public PlanetEnum PlanetEnum { get; }
+    public Planet Planet { get; }
     public decimal Speed { get; }
     public bool IsRetrograde => Speed < 0;
     public DateTime Date { get; }
 
-    public Dictionary<string, IMappable> MappedData { get; }
+    public Dictionary<string, MappedData> MappedData { get; }
 
-    public Ephemeris(PlanetEnum planetEnum, Degree longitude, decimal speed, DateTime date, Dictionary<string, IMappable> mappedData)
+    public Ephemeris(Planet planet, Degree longitude, decimal speed, DateTime date, IEnumerable<MappedData> mappedData)
     {
         Longitude = longitude;
-        PlanetEnum = planetEnum;
+        Planet = planet;
         Speed = speed;
         Date = date;
-        MappedData = mappedData;
+        MappedData = mappedData.ToDictionary(m => m.Name, m => m);
     }
 }
