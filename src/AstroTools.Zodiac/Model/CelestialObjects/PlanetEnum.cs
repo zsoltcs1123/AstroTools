@@ -11,5 +11,8 @@
         Jupiter,
         Saturn,
         Mercury,
+        Uranus,
+        Neptune,
+        Pluto
     }
 }

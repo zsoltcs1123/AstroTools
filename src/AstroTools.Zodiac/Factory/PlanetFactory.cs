@@ -1,6 +1,6 @@
 ﻿using AstroTools.Common.Factory;
 using AstroTools.Zodiac.Model.CelestialObjects;
-using AstroTools.Zodiac.Model.Enums;
+using AstroTools.Zodiac.Model.Divisions;
 
 namespace AstroTools.Zodiac.Factory;
 
@@ -21,6 +21,9 @@ public class PlanetFactory : IFactory<Planet>
             { PlanetEnum.Jupiter, 16 },
             { PlanetEnum.Saturn, 19 },
             { PlanetEnum.Mercury, 17 },
+            { PlanetEnum.Uranus, 0 },
+            { PlanetEnum.Neptune, 0 },
+            { PlanetEnum.Pluto, 0 }
         };
     }
 
@@ -39,7 +42,10 @@ public class PlanetFactory : IFactory<Planet>
             { PlanetEnum.Rahu, Array.Empty<SignEnum>() },
             { PlanetEnum.Jupiter, new[] { SignEnum.Leo, SignEnum.Cancer, SignEnum.Aries, SignEnum.Scorpio } },
             { PlanetEnum.Saturn, new[] { SignEnum.Gemini, SignEnum.Virgo, SignEnum.Taurus, SignEnum.Libra } },
-            { PlanetEnum.Mercury, new[] { SignEnum.Leo, SignEnum.Taurus, SignEnum.Libra } }
+            { PlanetEnum.Mercury, new[] { SignEnum.Leo, SignEnum.Taurus, SignEnum.Libra } },
+            { PlanetEnum.Uranus, Array.Empty<SignEnum>() },
+            { PlanetEnum.Neptune, Array.Empty<SignEnum>() },
+            { PlanetEnum.Pluto, Array.Empty<SignEnum>() }
         };
     }
 
@@ -55,7 +61,10 @@ public class PlanetFactory : IFactory<Planet>
             { PlanetEnum.Rahu, Array.Empty<SignEnum>() },
             { PlanetEnum.Jupiter, new[] { SignEnum.Gemini, SignEnum.Virgo, SignEnum.Taurus, SignEnum.Libra } },
             { PlanetEnum.Saturn, new[] { SignEnum.Leo, SignEnum.Cancer, SignEnum.Aries, SignEnum.Scorpio } },
-            { PlanetEnum.Mercury, new[] { SignEnum.Cancer } }
+            { PlanetEnum.Mercury, new[] { SignEnum.Cancer } },
+            { PlanetEnum.Uranus, Array.Empty<SignEnum>() },
+            { PlanetEnum.Neptune, Array.Empty<SignEnum>() },
+            { PlanetEnum.Pluto, Array.Empty<SignEnum>() }
         };
     }
 
@@ -71,7 +80,10 @@ public class PlanetFactory : IFactory<Planet>
             { PlanetEnum.Rahu, Array.Empty<SignEnum>() },
             { PlanetEnum.Jupiter, new[] { SignEnum.Saggitarius, SignEnum.Pisces } },
             { PlanetEnum.Saturn, new[] { SignEnum.Capricorn, SignEnum.Aquarius } },
-            { PlanetEnum.Mercury, new[] { SignEnum.Gemini, SignEnum.Virgo } }
+            { PlanetEnum.Mercury, new[] { SignEnum.Gemini, SignEnum.Virgo } },
+            { PlanetEnum.Uranus, new[] { SignEnum.Aquarius } },
+            { PlanetEnum.Neptune, new[] { SignEnum.Pisces } },
+            { PlanetEnum.Pluto, new[] { SignEnum.Scorpio } }
         };
     }
 
@@ -87,7 +99,10 @@ public class PlanetFactory : IFactory<Planet>
             { PlanetEnum.Rahu, Array.Empty<SignEnum>() },
             { PlanetEnum.Jupiter, new[] { SignEnum.Cancer } },
             { PlanetEnum.Saturn, new[] { SignEnum.Libra } },
-            { PlanetEnum.Mercury, new[] { SignEnum.Virgo } }
+            { PlanetEnum.Mercury, new[] { SignEnum.Virgo } },
+            { PlanetEnum.Uranus, Array.Empty<SignEnum>() },
+            { PlanetEnum.Neptune, Array.Empty<SignEnum>() },
+            { PlanetEnum.Pluto, Array.Empty<SignEnum>() },
         };
     }
 
@@ -103,7 +118,10 @@ public class PlanetFactory : IFactory<Planet>
             { PlanetEnum.Rahu, Array.Empty<SignEnum>() },
             { PlanetEnum.Jupiter, new[] { SignEnum.Capricorn } },
             { PlanetEnum.Saturn, new[] { SignEnum.Aries } },
-            { PlanetEnum.Mercury, new[] { SignEnum.Pisces } }
+            { PlanetEnum.Mercury, new[] { SignEnum.Pisces } },
+            { PlanetEnum.Uranus, Array.Empty<SignEnum>() },
+            { PlanetEnum.Neptune, Array.Empty<SignEnum>() },
+            { PlanetEnum.Pluto, Array.Empty<SignEnum>() },
         };
     }
 

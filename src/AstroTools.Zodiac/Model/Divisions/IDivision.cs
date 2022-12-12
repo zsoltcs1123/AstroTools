@@ -1,11 +1,11 @@
-﻿using AstroTools.Common.Model;
-using AstroTools.Common.Model.Degree;
-using AstroTools.Zodiac.Model.SubDivisions;
+﻿using AstroTools.Common.Model.Degree;
+using AstroTools.Zodiac.Model.CelestialObjects;
 
 namespace AstroTools.Zodiac.Model.Divisions;
 
-public interface IDivision : IMappable
+public interface IDivision : ICelestialObject
 {
     DegreeRange Region { get; }
-    public List<SubDivision> SubDivisions { get; }
+    Planet Lord { get; }
+    public Dictionary<string, SubDivision> SubDivisions { get; set; }
 }

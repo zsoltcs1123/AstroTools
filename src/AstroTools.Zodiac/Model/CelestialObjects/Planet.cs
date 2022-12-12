@@ -1,4 +1,4 @@
-﻿using AstroTools.Zodiac.Model.Enums;
+﻿using AstroTools.Zodiac.Model.Divisions;
 
 namespace AstroTools.Zodiac.Model.CelestialObjects;
 

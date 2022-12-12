@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Service" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Include="Resources\ephem_sidereal_krishnamurti_2016-2023_mean.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
@@ -19,6 +15,10 @@
       </Content>
       <None Remove="Resources\ephem_sidereal_krishnamurti_2022-2023_4h_mean.csv" />
       <Content Include="Resources\ephem_sidereal_krishnamurti_2022-2023_4h_mean.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\ephem_tropical_2022_2024_4h_mean.csv" />
+      <Content Include="Resources\ephem_tropical_2022_2024_4h_mean.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

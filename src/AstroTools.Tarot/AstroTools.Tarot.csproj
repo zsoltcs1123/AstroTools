@@ -7,7 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AstroTools.Common\AstroTools.Common.csproj" />
+      <ProjectReference Include="..\AstroTools.Zodiac\AstroTools.Zodiac.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Factory" />
+      <Folder Include="Model" />
     </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using AstroTools.Common.Model.Degree;
 using AstroTools.Ephemerides.Model.DataTransfer;
 using AstroTools.Zodiac.Model.CelestialObjects;
-using AstroTools.Zodiac.Service;
+using AstroTools.Zodiac.Zodiac;
 
 namespace AstroTools.Ephemerides.Factory;
 
@@ -21,13 +21,25 @@ public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, Ephemeris
     {
         return parameter switch
         {
-            MultiEphemerisDto multi => Build(multi),
+            VedicEphemerisDto multi => Build(multi),
             MoonEphemerisDto moon => Build(moon),
             _ => Array.Empty<Model.Ephemeris>()
         };
     }
 
-    public IEnumerable<Model.Ephemeris> Build(MultiEphemerisDto dto)
+    public IEnumerable<Model.Ephemeris> Build(VedicEphemerisDto dto)
+    {
+        return Enum.GetValues<PlanetEnum>()
+            .Where(p => p != PlanetEnum.Moon)
+            .Select(p =>
+            {
+                var degrees = GetDegreesForPlanet(p, dto);
+                var planet = _planets[p];
+                return new Model.Ephemeris(planet, degrees, 0, dto.Date, _zodiac.Map(planet, degrees));
+            });
+    }
+    
+    public IEnumerable<Model.Ephemeris> Build(TropicalEphemerisDto dto)
     {
         return Enum.GetValues<PlanetEnum>()
             .Where(p => p != PlanetEnum.Moon)
@@ -50,8 +62,8 @@ public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, Ephemeris
                 return new Model.Ephemeris(planet, degrees, 0, dto.Date, _zodiac.Map(planet, degrees));
             });
     }
-
-    private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, MultiEphemerisDto dto) => new(planetEnum switch
+    
+    private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, VedicEphemerisDto dto) => new(planetEnum switch
     {
         PlanetEnum.Ketu => dto.SouthNode,
         PlanetEnum.Venus => dto.Venus,
@@ -64,6 +76,23 @@ public class EphemerisFactory : IParameterizedFactory<Model.Ephemeris, Ephemeris
         _ => 0m
     });
 
+
+    private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, TropicalEphemerisDto dto) => new(planetEnum switch
+    {
+        PlanetEnum.Ketu => dto.SouthNode,
+        PlanetEnum.Venus => dto.Venus,
+        PlanetEnum.Sun => dto.Sun,
+        PlanetEnum.Mars => dto.Mars,
+        PlanetEnum.Rahu => dto.MeanNode,
+        PlanetEnum.Jupiter => dto.Jupiter,
+        PlanetEnum.Saturn => dto.Saturn,
+        PlanetEnum.Mercury => dto.Mercury,
+        PlanetEnum.Uranus => dto.Uranus,
+        PlanetEnum.Neptune => dto.Neptune,
+        PlanetEnum.Pluto => dto.Pluto,
+        _ => 0m
+    });
+    
     private static Degree GetDegreesForPlanet(PlanetEnum planetEnum, MoonEphemerisDto dto) => new(planetEnum switch
     {
         PlanetEnum.Moon => dto.Moon,
