@@ -44,7 +44,7 @@ internal class Program
         
         var signRepository = new GenericRepository<Sign>(signFactory.CreateAll());
         
-        var ephemFile = @"Resources\ephem_tropical_2022_2024_4h_mean.csv";
+        var ephemFile = @"Resources\sunout_2h_jan_mar_2023.csv";
         var tropicalZodiac = new TropicalZodiac(signRepository);
         var ephemerisBuilder = new EphemerisFactory(tropicalZodiac, planetFactory);
         var ephemerisInitializer = new CsvDataProvider<TropicalEphemerisDto>();
@@ -64,20 +64,29 @@ internal class Program
         {
             DateTime? startDate = planetEnum switch
             {
-                PlanetEnum.Sun or PlanetEnum.Mercury or PlanetEnum.Venus => new DateTime(2020, 08, 01),
+                PlanetEnum.Sun or PlanetEnum.Mercury or PlanetEnum.Venus => new DateTime(2023, 01, 01),
                 PlanetEnum.Mars => new DateTime(2020, 06, 01),
                 PlanetEnum.Jupiter or PlanetEnum.Saturn => new DateTime(2020, 3, 1),
                 PlanetEnum.Rahu or PlanetEnum.Ketu => new DateTime(2020, 1, 1),
+                PlanetEnum.Moon => new DateTime(2023,1,1),
+                PlanetEnum.Neptune or PlanetEnum.Pluto or PlanetEnum.Uranus => new DateTime(2023, 01, 01),
                 _ => null
             };
 
-            DateTime? endDate = new DateTime(2023, 01, 01);
+            DateTime? endDate = new DateTime(2024, 01, 01);
 
             var eventsForPlanet =
                 astroEventRepository.Get(e =>
-                    e.Planet.PlanetEnum == planetEnum && e.Date.IsBetween(startDate, endDate));
+                    e.Planet.PlanetEnum == planetEnum && e.Date.IsBetween(startDate, endDate))
+                    .Where(e => e.Name.Contains("DecanChange"))
+                    .ToArray();
 
-            var script = scriptGenerator.Generate(eventsForPlanet, "Resources/tv_vedic_sun.txt");
+            if (!eventsForPlanet.Any())
+            {
+                continue;
+            }
+
+            var script = scriptGenerator.Generate(eventsForPlanet, "Resources/tv_template.txt");
 
             File.WriteAllText(outputDir + $"tropical {planetEnum}.txt", script);
             Console.WriteLine($"Generated script for planet {planetEnum} ");

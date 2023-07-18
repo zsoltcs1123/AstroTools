@@ -21,6 +21,18 @@
       <Content Include="Resources\ephem_tropical_2022_2024_4h_mean.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Resources\moon_4m_jan_2023.csv" />
+      <Content Include="Resources\moon_4m_jan_2023.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\sun_2h_jan_mar_2023.csv" />
+      <Content Include="Resources\sun_2h_jan_mar_2023.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\sunout_2h_jan_mar_2023.csv" />
+      <Content Include="Resources\sunout_2h_jan_mar_2023.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

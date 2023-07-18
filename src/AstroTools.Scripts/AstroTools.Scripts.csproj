@@ -16,8 +16,12 @@
 
     <ItemGroup>
       <None Remove="Resources\tv_vedic_sun.txt" />
-      <Content Include="Resources\tv_vedic_sun.txt">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\tv_template.txt" />
+      <Content Include="Resources\tv_template.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
 

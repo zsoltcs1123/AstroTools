@@ -1,5 +1,5 @@
 //@version=5
-indicator("Vedic Sun",overlay=true, max_lines_count=500, max_boxes_count=500, max_labels_count=500)
+indicator("Template",overlay=true, max_lines_count=500, max_boxes_count=500, max_labels_count=500)
 
 
 // Start boilerplate
@@ -210,11 +210,4 @@ if barstate.islast
         subLordLabelActualTS = array.get(subLordLabelActualTSArray, i)
         subLordLabel = array.get(subLordLabelArray, i)
         var background = color.rgb(184, 182, 177)
-        if str.contains(subLordLabel, "SubLordChange") and tfInMinutes() < 60
-            label.new(subLordLabelActualTS, array.get(subLordLabelPriceArray, i), array.get(subLordLabelArray, i), xloc=xloc.bar_time, color=background,size=size.small)
-        else if str.contains(subLordLabel, "StarLordChange")
-            label.new(subLordLabelActualTS, array.get(subLordLabelPriceArray, i), array.get(subLordLabelArray, i), xloc=xloc.bar_time, color=background,size=size.normal)
-        else if str.contains(subLordLabel, "StarChange")
-            label.new(subLordLabelActualTS, array.get(subLordLabelPriceArray, i), array.get(subLordLabelArray, i), xloc=xloc.bar_time, color=background,size=size.normal)
-        else if str.contains(subLordLabel, "SignChange")
-            label.new(subLordLabelActualTS, array.get(subLordLabelPriceArray, i), array.get(subLordLabelArray, i), xloc=xloc.bar_time, color=background,size=size.normal)
+        label.new(subLordLabelActualTS, array.get(subLordLabelPriceArray, i), array.get(subLordLabelArray, i), xloc=xloc.bar_time, color=background,size=size.small)

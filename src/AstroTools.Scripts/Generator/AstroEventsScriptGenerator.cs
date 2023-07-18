@@ -43,7 +43,7 @@ public class AstroEventsScriptGenerator : IAstroEventsScriptGenerator
 
         foreach (var astroEvent in astroEvents)
         {
-            timeStampsSb.Append($"     timestamp(\"{astroEvent.Date.ToString("yyyy-MM-dd hh:mm")} UTC\"),\n");
+            timeStampsSb.Append($"     timestamp(\"{astroEvent.Date.ToString("yyyy-MM-dd HH:mm")} UTC\"),\n");
             labelsSb.Append($"     \"{astroEvent.Name} {astroEvent.Description}\",\n");
         }
 
